@@ -1,0 +1,14 @@
+header h1 {
+    color: blue;
+    font-size: 18px;
+}
+header {
+    background-color: lightcoral;
+}
+#first {
+    color: rgb(58, 82, 51);
+}
+
+.darker {
+    color: brown;
+}
