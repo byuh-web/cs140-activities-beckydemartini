@@ -1,0 +1,158 @@
+/* ---------- Page basics ---------- */
+body {
+  margin: 0;                 /* box model: margin */
+  padding: 0;                /* box model: padding */
+  font-family: Arial, Helvetica, sans-serif;  /* font family #1 */
+  font-size: 18px;           /* text: font-size */
+  line-height: 1.2;          /* text: line-height */
+  background: #f4f4f4;
+}
+
+/* Wrapper centers content using auto margins */
+.wrapper {
+  width: 860px;              /* box model: width */
+  margin: 0 auto;            /* center with auto margins */
+  padding: 1rem;             /* box model: padding */
+}
+
+/* ---------- Header ---------- */
+header {
+  height: 150px;             /* box model: height */
+  padding: 20px;             /* box model: padding */
+  border: 4px solid #222;    /* box model: border */
+  border-radius: 18px;       /* box model: border-radius */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);  /* box model: box-shadow */
+
+  /* background image requirement */
+  background-image: url("images/banner.jpg");
+  background-size: cover;          /* allowed: background-size */
+  background-repeat: no-repeat;
+  background-position: center;
+/
+  /* required background settings */
+  background-origin: padding-box;
+  background-clip: content-box;
+
+  text-align: center;         /* text: text-align */
+}
+
+header h1 {
+  margin: 0;
+  font-family: "Georgia", "Times New Roman", serif; /* font family #2 */
+  font-weight: 800;           /* text: font-weight */
+  padding-top: 2rem;
+  text-transform: uppercase;  /* text: text-transform */
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.5); /* text: text-shadow */
+  color: rgb(47, 138, 2);
+}
+
+.tagline {
+  margin-top: 8px;
+  font-style: italic;         /* text: font-style */
+  color: white;
+}
+
+/* ---------- Navigation ---------- */
+nav {
+  margin: 18px 0;             /* box model: margin */
+  padding: 12px;              /* box model: padding */
+  border: 3px solid #222;     /* box model: border */
+  border-radius: 14px;        /* box model: border-radius */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.117);
+  text-align: center;
+  background: white;
+}
+
+nav a {
+  display: inline-block;
+  margin: 0 10px;
+  padding: 10px 14px;
+  text-decoration: none;
+  font-weight: 700;
+  color: #222;
+  border-radius: 10px;
+}
+
+/* Pseudo-class hover highlight requirement */
+nav a:hover {
+  background: #222;
+  color: white;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+}
+
+/* ---------- Main content ---------- */
+main {
+  background: white;
+  padding: 18px;
+  border: 3px solid #222;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+main h2 {
+  margin-top: 0;
+  text-transform: capitalize;
+}
+
+/* Figure floated so text wraps around it */
+figure {
+  width: 280px;               /* box model: width */
+  margin: 10px 0 10px 16px;   /* box model: margin */
+  padding: 10px;              /* box model: padding */
+  border: 2px solid #222;     /* box model: border */
+  border-radius: 14px;        /* box model: border-radius */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  background: #fafafa;
+}
+
+figure img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+figcaption {
+  margin-top: 8px;
+  font-size: 0.95em;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Float class (choose right or left) */
+.float-right {
+  float: right;
+}
+
+.float-left {
+  float: left;
+  margin: 10px 16px 10px 0;
+}
+
+/* A little box-model callout area */
+.callout {
+  margin-top: 16px;
+  padding: 12px;
+  border: 2px dashed #222;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+}
+
+/* ---------- Footer ---------- */
+footer {
+  margin-top: 18px;
+  padding: 16px;
+  border: 3px solid #222;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  text-align: center;
+
+  /* background image can also go here (optional),
+     but assignment needs at least one bg image total (already in header) */
+  background: white;
+}
+
+/* Prevent footer from sliding up next to the floated figure */
+footer,
+.callout {
+  clear: both;
+}

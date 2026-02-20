@@ -1,0 +1,66 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+++.wrapper {
+    width: 800;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+header {
+    width: 500px;
+    background-color: aliceblue;
+}
+
+nav {
+    width: 400px;
+    background-color: aquamarine;
+ ++these block tags won't share space.
+}
+
+
+img {
+
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    
+}
+
+figcaption {
+    font-style: italic;
+    font-size: smaller;
+    text-align: center;
+    text-transform: capitalize;
+    text-shadow: 10px 5px 5px rgb(173, 44, 44);
+    line-height: 15px;
+
+}
+#pic {
+    width: 500px;
+    border: 2px solid blueviolet;
+    box-shadow: 0 4px 4px green;
+    border-radius: 10px;
+    float: right;
+    margin: 0 1rem 1rem 0;
+  
+}
+.clear {
+    clear: both;
+}
+
+
+nav a:visited {
+    color: purple;
+}
+
+++nav a:hover {
+  background: #222;
+  color: white;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+}
+
+nav a:active: {
+    color: red;
+}
