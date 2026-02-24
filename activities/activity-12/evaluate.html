@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIFT+ | Modern Information Evaluation</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --accent1: #e84d2a;
+    --accent2: #1a56db;
+    --accent3: #1aa569;
+    --accent4: #d4a017;
+    --accent5: #9b2fc9;
+    --accent6: #e84d2a;
+    --mid: #6b6055;
+    --light: #e8e2d6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 0;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 60px 48px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: var(--accent1);
+    opacity: 0.15;
+  }
+
+  .hero-tag {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent4);
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(42px, 8vw, 72px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .hero h1 span { color: var(--accent1); }
+
+  .hero-sub {
+    font-size: 18px;
+    font-weight: 300;
+    color: #c4bdb2;
+    max-width: 560px;
+    margin-top: 16px;
+    margin-bottom: 32px;
+  }
+
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .badge {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #d8d2cc;
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  /* SECTION WRAPPER */
+  .section {
+    padding: 48px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--light);
+  }
+
+  /* INTRO BOX */
+  .intro-box {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 36px 40px;
+    border-radius: 4px;
+    margin-bottom: 48px;
+  }
+
+  .intro-box h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--accent4);
+  }
+
+  .intro-box p {
+    font-size: 15px;
+    line-height: 1.75;
+    color: #c4bdb2;
+    max-width: 760px;
+  }
+
+  /* SIFT STEPS */
+  .sift-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 3px;
+    background: var(--ink);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 64px;
+  }
+
+  .sift-card {
+    background: var(--paper);
+    padding: 36px 28px;
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .sift-card:hover { background: #ede7db; }
+
+  .sift-letter {
+    font-family: 'Syne', sans-serif;
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .sift-word {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid currentColor;
+    opacity: 0.9;
+  }
+
+  .sift-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--mid);
+  }
+
+  .sift-desc strong { color: var(--ink); font-weight: 500; }
+
+  .sift-card:nth-child(1) .sift-letter,
+  .sift-card:nth-child(1) .sift-word { color: var(--accent1); }
+  .sift-card:nth-child(2) .sift-letter,
+  .sift-card:nth-child(2) .sift-word { color: var(--accent2); }
+  .sift-card:nth-child(3) .sift-letter,
+  .sift-card:nth-child(3) .sift-word { color: var(--accent3); }
+  .sift-card:nth-child(4) .sift-letter,
+  .sift-card:nth-child(4) .sift-word { color: var(--accent5); }
+
+  /* SOURCE TYPE TABS */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .tab-btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 18px;
+    border: 2px solid var(--ink);
+    background: transparent;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.15s;
+    letter-spacing: 0.03em;
+  }
+
+  .tab-btn:hover, .tab-btn.active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .source-card {
+    background: white;
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .source-header {
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .source-icon {
+    font-size: 28px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+  }
+
+  .source-header h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .source-header p {
+    font-size: 13px;
+    color: var(--mid);
+    margin-top: 2px;
+  }
+
+  .checklist {
+    padding: 28px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0;
+  }
+
+  .check-item {
+    padding: 14px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--light);
+  }
+
+  .check-item:last-child { border-bottom: none; }
+
+  .check-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    color: var(--paper);
+    background: var(--ink);
+    min-width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+
+  .check-text { font-size: 14px; line-height: 1.6; }
+  .check-text strong { font-weight: 500; display: block; margin-bottom: 2px; }
+  .check-text span { color: var(--mid); font-size: 13px; }
+
+  .red-flag-box {
+    background: #fff0ec;
+    border-top: 2px solid var(--ink);
+    padding: 20px 28px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .red-flag-box .flag-icon { font-size: 18px; margin-top: 2px; }
+  .red-flag-box p { font-size: 13px; line-height: 1.6; }
+  .red-flag-box strong { font-family: 'Syne', sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 4px; }
+
+  /* QUICK QUESTIONS */
+  .questions-divider {
+    background: var(--accent2);
+    color: var(--paper);
+    padding: 48px;
+    margin: 0;
+  }
+
+  .questions-divider .section-label { color: rgba(255,255,255,0.5); border-bottom-color: rgba(255,255,255,0.2); }
+
+  .questions-divider h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 28px;
+  }
+
+  .q-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .q-item {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 4px;
+    padding: 20px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .q-item strong {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 8px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* TOOLS */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 64px;
+  }
+
+  .tool-card {
+    border: 2px solid var(--ink);
+    padding: 24px 20px;
+    border-radius: 4px;
+    background: white;
+  }
+
+  .tool-emoji { font-size: 24px; margin-bottom: 10px; }
+
+  .tool-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .tool-card p { font-size: 13px; color: var(--mid); line-height: 1.6; }
+
+  .tool-card a {
+    font-size: 12px;
+    color: var(--accent2);
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 8px;
+  }
+
+  /* COMPARISON TABLE */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 64px;
+    font-size: 14px;
+  }
+
+  .compare-table th {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 14px 18px;
+    text-align: left;
+  }
+
+  .compare-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--light);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:nth-child(even) td { background: #faf6ef; }
+
+  .pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Syne', sans-serif;
+    letter-spacing: 0.05em;
+  }
+
+  .pill-green { background: #d1fadf; color: #1a6b3c; }
+  .pill-yellow { background: #fff3cd; color: #7d5a00; }
+  .pill-red { background: #ffe0d9; color: #9b2a11; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--ink);
+    color: #7a7269;
+    text-align: center;
+    padding: 36px 48px;
+    font-size: 13px;
+  }
+
+  .footer strong { color: #c4bdb2; font-family: 'Syne', sans-serif; }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .hero, .section, .questions-divider { padding: 32px 24px; }
+    .checklist { grid-template-columns: 1fr; }
+  }
+
+  /* ANIMATIONS */
+  .sift-card, .tool-card, .tab-btn {
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .sift-card:hover { transform: translateY(-2px); }
+  .tool-card:hover { transform: translateY(-2px); box-shadow: 4px 4px 0 var(--ink); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Information Literacy for Today's World</div>
+  <h1>SIFT<span>+</span><br>Evaluate Smarter</h1>
+  <p class="hero-sub">A clear, modern framework for evaluating any source — from journal articles to AI output — built for students in the age of misinformation.</p>
+  <div class="hero-badges">
+    <span class="badge">📰 News & Websites</span>
+    <span class="badge">🎓 Academic Journals</span>
+    <span class="badge">📱 Social Media</span>
+    <span class="badge">🤖 AI-Generated Content</span>
+    <span class="badge">🎥 Videos & Podcasts</span>
+    <span class="badge">📊 Statistics & Data</span>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="section">
+  <div class="section-label">Why SIFT+?</div>
+  <div class="intro-box">
+    <h2>The CRAAP Test is outdated — here's why</h2>
+    <p>The CRAAP Test was designed for a world where information was slower, less abundant, and easier to trace. Today, AI can generate convincing fake studies, social media spreads misinformation instantly, and even legitimate-looking websites can mislead. SIFT+ is built on research-backed lateral reading — the same techniques professional fact-checkers use — updated with specific guidance for academic sources, AI tools, statistics, and social media.</p>
+  </div>
+
+  <div class="section-label">The 4-Step SIFT Framework — Start Here Every Time</div>
+  <div class="sift-grid">
+    <div class="sift-card">
+      <div class="sift-letter">S</div>
+      <div class="sift-word">Stop</div>
+      <div class="sift-desc">
+        Before you read or share — <strong>pause.</strong> Notice your reaction. Are you angry? Excited? Surprised? Strong emotions are a signal to slow down and check. Ask yourself: <em>Am I being manipulated right now?</em>
+      </div>
+    </div>
+    <div class="sift-card">
+      <div class="sift-letter">I</div>
+      <div class="sift-word">Investigate the Source</div>
+      <div class="sift-desc">
+        <strong>Before reading the content</strong>, spend 60 seconds learning who made it. Google the author, outlet, or organization. You don't need to read deeply — just check if they're who they claim to be.
+      </div>
+    </div>
+    <div class="sift-card">
+      <div class="sift-letter">F</div>
+      <div class="sift-word">Find Better Coverage</div>
+      <div class="sift-desc">
+        If a claim matters, <strong>look for other sources saying the same thing.</strong> One source is never enough. If only one outlet is reporting something extraordinary, that's a red flag. Find the original source when possible.
+      </div>
+    </div>
+    <div class="sift-card">
+      <div class="sift-letter">T</div>
+      <div class="sift-word">Trace Claims</div>
+      <div class="sift-desc">
+        Follow links and citations back to their origin. Viral content often <strong>distorts or misrepresents</strong> the original study, quote, or event. Ask: does the source actually say what this article claims?
+      </div>
+    </div>
+  </div>
+
+  <!-- SOURCE TYPE TABS -->
+  <div class="section-label">Checklists by Source Type — Apply SIFT, Then Dig Deeper</div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('journal')">🎓 Academic Journal</button>
+    <button class="tab-btn" onclick="showTab('web')">🌐 Website / News</button>
+    <button class="tab-btn" onclick="showTab('ai')">🤖 AI-Generated</button>
+    <button class="tab-btn" onclick="showTab('social')">📱 Social Media</button>
+    <button class="tab-btn" onclick="showTab('stats')">📊 Statistics & Data</button>
+    <button class="tab-btn" onclick="showTab('video')">🎥 Video & Podcast</button>
+  </div>
+
+  <!-- ACADEMIC JOURNAL -->
+  <div class="tab-panel active" id="tab-journal">
+    <div class="source-card">
+      <div class="source-header">
+        <div class="source-icon" style="background:#eef3ff;">🎓</div>
+        <div>
+          <h3>Academic Journal Articles</h3>
+          <p>Peer-reviewed research — still requires critical reading</p>
+        </div>
+      </div>
+      <div class="checklist">
+        <div class="check-item">
+          <div class="check-num">1</div>
+          <div class="check-text"><strong>Is it actually peer-reviewed?</strong><span>Search the journal name + "predatory journal." Use <a href="https://beallslist.net" target="_blank">Beall's List</a> or the DOAJ to verify legitimacy. A journal that accepts anything for a fee is not credible.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">2</div>
+          <div class="check-text"><strong>Who are the authors — really?</strong><span>Check if they have a real institutional affiliation (university, research org). Search their name on Google Scholar. Are they actually experts in this field?</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">3</div>
+          <div class="check-text"><strong>Look for conflicts of interest</strong><span>Read the funding and disclosure section. Was this study funded by a company that profits from a positive result? That doesn't invalidate it — but you need to know.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">4</div>
+          <div class="check-text"><strong>Has it been cited or retracted?</strong><span>Search the article on <a href="https://scholar.google.com" target="_blank">Google Scholar</a> to see citations. Check <a href="https://retractionwatch.com" target="_blank">Retraction Watch</a> to see if it's been pulled.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">5</div>
+          <div class="check-text"><strong>What type of study is it?</strong><span>A randomized controlled trial is stronger than a survey. A meta-analysis is stronger than one study. Single small studies rarely prove anything on their own.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">6</div>
+          <div class="check-text"><strong>Do conclusions match the data?</strong><span>Read the abstract and results, then compare to the conclusion. Overreach is common — authors sometimes claim more than their data actually supports.</span></div>
+        </div>
+      </div>
+      <div class="red-flag-box">
+        <div class="flag-icon">🚩</div>
+        <div><p><strong>Watch Out For</strong> Journals with very generic names, articles with no institutional affiliations, studies with tiny sample sizes making sweeping claims, and research that has no independent citations after several years.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEB / NEWS -->
+  <div class="tab-panel" id="tab-web">
+    <div class="source-card">
+      <div class="source-header">
+        <div class="source-icon" style="background:#fff3cd;">🌐</div>
+        <div>
+          <h3>Websites & Online News</h3>
+          <p>Includes news sites, blogs, advocacy sites, government pages</p>
+        </div>
+      </div>
+      <div class="checklist">
+        <div class="check-item">
+          <div class="check-num">1</div>
+          <div class="check-text"><strong>Open new tabs — don't stay on the page</strong><span>Search the outlet's name + "bias" or "reliability." Check AllSides, Media Bias/Fact Check, or NewsGuard. This is lateral reading and it's the most powerful move you can make.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">2</div>
+          <div class="check-text"><strong>Who wrote it and why?</strong><span>Find the author's bio and other articles they've written. Is this an opinion piece labeled as news? Is there a byline at all?</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">3</div>
+          <div class="check-text"><strong>Check the "About" page</strong><span>Legitimate organizations explain who they are, what they stand for, and who funds them. A missing or vague About page is suspicious.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">4</div>
+          <div class="check-text"><strong>Find the original source</strong><span>When an article cites a study, tweet, or event — go find it. Don't trust the interpretation. Often the original says something more nuanced or different entirely.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">5</div>
+          <div class="check-text"><strong>Is this satire or parody?</strong><span>Check the site's footer or About page. Satire sites like The Onion are legitimate — but their content gets shared as real news constantly. Know what you're looking at.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">6</div>
+          <div class="check-text"><strong>How does the language feel?</strong><span>Credible reporting is measured. Look for inflammatory headlines, excessive exclamation marks, or emotionally loaded language designed to trigger a reaction rather than inform.</span></div>
+        </div>
+      </div>
+      <div class="red-flag-box">
+        <div class="flag-icon">🚩</div>
+        <div><p><strong>Watch Out For</strong> URLs with slight misspellings of known outlets (ABCnews.com.co), sites with no About page, stories covered only by one outlet, and content with no dates or authors.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI -->
+  <div class="tab-panel" id="tab-ai">
+    <div class="source-card">
+      <div class="source-header">
+        <div class="source-icon" style="background:#f3e8ff;">🤖</div>
+        <div>
+          <h3>AI-Generated Content</h3>
+          <p>ChatGPT, Claude, Gemini, AI images, AI-written articles</p>
+        </div>
+      </div>
+      <div class="checklist">
+        <div class="check-item">
+          <div class="check-num">1</div>
+          <div class="check-text"><strong>AI does not have sources — verify everything</strong><span>AI models generate plausible-sounding text, not verified facts. Any specific claim — a statistic, a quote, a study — must be independently verified before using it. Never cite AI as a source.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">2</div>
+          <div class="check-text"><strong>Watch for "hallucinations"</strong><span>AI confidently makes up fake citations, people, events, and statistics. If an AI provides a study or quote, search for it directly. If you can't find it — it may not exist.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">3</div>
+          <div class="check-text"><strong>Check the training knowledge cutoff</strong><span>Most AI models have a knowledge cutoff date. They may give outdated information about current events, recent research, or ongoing situations without flagging it as old.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">4</div>
+          <div class="check-text"><strong>AI-generated images: use detection tools</strong><span>Look for unnatural fingers, backgrounds, teeth, or reflections. Use tools like Google Reverse Image Search or Hive Moderation to detect AI-generated images.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">5</div>
+          <div class="check-text"><strong>What was the prompt?</strong><span>AI output is only as good as the question asked. Output can be biased by how the question was framed. Always ask: who prompted this, and what were they trying to produce?</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">6</div>
+          <div class="check-text"><strong>Deepfakes: does the audio/video match?</strong><span>For video content, look for unnatural lip movement, lighting inconsistencies, or audio that sounds slightly "off." When in doubt, find the original source.</span></div>
+        </div>
+      </div>
+      <div class="red-flag-box">
+        <div class="flag-icon">🚩</div>
+        <div><p><strong>The Golden Rule for AI</strong> AI is a tool, not a source. Use it to brainstorm, summarize, or explore ideas — but always verify specific facts through primary sources before using them in any work. AI output requires human verification.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOCIAL MEDIA -->
+  <div class="tab-panel" id="tab-social">
+    <div class="source-card">
+      <div class="source-header">
+        <div class="source-icon" style="background:#fff0f3;">📱</div>
+        <div>
+          <h3>Social Media</h3>
+          <p>X/Twitter, TikTok, Instagram, Facebook, Reddit</p>
+        </div>
+      </div>
+      <div class="checklist">
+        <div class="check-item">
+          <div class="check-num">1</div>
+          <div class="check-text"><strong>Don't trust engagement metrics</strong><span>Likes, shares, and followers don't equal accuracy. Viral posts are often the most misleading. Popularity is not the same as truth.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">2</div>
+          <div class="check-text"><strong>Who is this account really?</strong><span>Check the account's full history — when was it created? What does it normally post? Is it a verified account? Parody and bot accounts often look real at first glance.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">3</div>
+          <div class="check-text"><strong>Reverse image search everything</strong><span>Photos shared during breaking news events are often from unrelated times or places. Right-click any image → search Google Images. It takes 10 seconds.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">4</div>
+          <div class="check-text"><strong>Read past the headline or caption</strong><span>Headlines and captions are designed to provoke reactions. Many people share content without reading it. Always read the full post — and then check if it links to a real source.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">5</div>
+          <div class="check-text"><strong>Has this been fact-checked?</strong><span>Search the claim on Snopes, PolitiFact, or FactCheck.org before sharing. If it's circulating widely, fact-checkers have probably already looked into it.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">6</div>
+          <div class="check-text"><strong>Check the date</strong><span>Old content gets recirculated constantly — especially around elections and disasters. Check when the original post was made, not when you saw it shared.</span></div>
+        </div>
+      </div>
+      <div class="red-flag-box">
+        <div class="flag-icon">🚩</div>
+        <div><p><strong>Watch Out For</strong> Screenshots of tweets (easily faked), accounts created recently during major events, "BREAKING" claims without links to legitimate news coverage, and content that makes you feel you need to share it immediately.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATISTICS -->
+  <div class="tab-panel" id="tab-stats">
+    <div class="source-card">
+      <div class="source-header">
+        <div class="source-icon" style="background:#e8f9f0;">📊</div>
+        <div>
+          <h3>Statistics & Data</h3>
+          <p>Numbers, charts, graphs, surveys, and research findings</p>
+        </div>
+      </div>
+      <div class="checklist">
+        <div class="check-item">
+          <div class="check-num">1</div>
+          <div class="check-text"><strong>Where did this number come from?</strong><span>Find the original dataset or study, not just someone's interpretation of it. Government sites (.gov), university research, and established research organizations (Pew, CDC, WHO) are generally reliable primary sources.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">2</div>
+          <div class="check-text"><strong>What was the sample?</strong><span>A survey of 50 people is very different from one of 50,000. Who was surveyed? Were they representative of the population being described? Self-selected samples are often heavily biased.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">3</div>
+          <div class="check-text"><strong>Relative vs. absolute numbers</strong><span>"Risk doubles" sounds alarming — but from 1 in a million to 2 in a million is very different from 1 in 10 to 2 in 10. Always ask: doubles from what to what?</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">4</div>
+          <div class="check-text"><strong>Is the chart manipulated?</strong><span>Check the Y-axis. Does it start at zero? A truncated axis can make a small change look dramatic. Are the time periods cherry-picked to support a narrative?</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">5</div>
+          <div class="check-text"><strong>Correlation ≠ causation</strong><span>Two things rising at the same time doesn't mean one causes the other. Always ask: what else could explain this pattern? Has this been tested?</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">6</div>
+          <div class="check-text"><strong>How old is the data?</strong><span>Statistics become outdated quickly, especially for health, economics, and demographics. Check when the data was collected — not just when the article was published.</span></div>
+        </div>
+      </div>
+      <div class="red-flag-box">
+        <div class="flag-icon">🚩</div>
+        <div><p><strong>Watch Out For</strong> Unnamed surveys ("studies show..."), round numbers that seem too neat, statistics without confidence intervals, charts without labeled axes, and data that's been cited so many times the original source is lost.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIDEO -->
+  <div class="tab-panel" id="tab-video">
+    <div class="source-card">
+      <div class="source-header">
+        <div class="source-icon" style="background:#fff3cd;">🎥</div>
+        <div>
+          <h3>Video & Podcast</h3>
+          <p>YouTube, TikTok, Spotify, documentary content</p>
+        </div>
+      </div>
+      <div class="checklist">
+        <div class="check-item">
+          <div class="check-num">1</div>
+          <div class="check-text"><strong>Who made this and why?</strong><span>Investigate the channel, producer, or podcast host using lateral reading. What else have they made? Are they trying to inform you — or sell you something, or build a following?</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">2</div>
+          <div class="check-text"><strong>Are expert claims checkable?</strong><span>When someone is introduced as an "expert," pause. Google their name + credentials. Have they published peer-reviewed work? Or are they just confident-sounding commentators?</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">3</div>
+          <div class="check-text"><strong>Is footage or audio being used out of context?</strong><span>Take a screenshot of suspicious footage and reverse image search it. Search for the specific quote or clip elsewhere to see the original context.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">4</div>
+          <div class="check-text"><strong>Does it cite sources you can check?</strong><span>Credible documentary and educational content should reference studies, data, and interviews you can verify independently. Vague "research says" without specifics is a warning sign.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">5</div>
+          <div class="check-text"><strong>Is this meant to be persuasive?</strong><span>Video is emotionally powerful. Dramatic music, selective editing, and compelling visuals can make weak arguments feel convincing. Separate the emotional impact from the logical content.</span></div>
+        </div>
+        <div class="check-item">
+          <div class="check-num">6</div>
+          <div class="check-text"><strong>Check the comments with skepticism</strong><span>Comments can reveal important context (like "this is satire") — but they can also amplify misinformation. Comments are not fact-checks.</span></div>
+        </div>
+      </div>
+      <div class="red-flag-box">
+        <div class="flag-icon">🚩</div>
+        <div><p><strong>Watch Out For</strong> Long-form videos that build trust over hours before making key claims, documentaries that only interview one side, and content that makes you feel like you've discovered something "they" don't want you to know.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK QUESTIONS BANNER -->
+<div class="questions-divider">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-label">5 Universal Questions — Ask These for Any Source</div>
+    <h2>When in doubt, start here.</h2>
+    <div class="q-grid">
+      <div class="q-item"><strong>Question 1</strong>Who made this, and what do I actually know about them?</div>
+      <div class="q-item"><strong>Question 2</strong>What are they trying to get me to believe, feel, or do?</div>
+      <div class="q-item"><strong>Question 3</strong>What evidence do they give — and can I check it directly?</div>
+      <div class="q-item"><strong>Question 4</strong>What do other credible sources say about this topic?</div>
+      <div class="q-item"><strong>Question 5</strong>What important information might be missing from this?</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOLS -->
+<div class="section">
+  <div class="section-label">Free Fact-Checking & Verification Tools</div>
+  <div class="tools-grid">
+    <div class="tool-card">
+      <div class="tool-emoji">🔍</div>
+      <h4>Google Reverse Image</h4>
+      <p>Right-click any image to find where it originally appeared and if it's been taken out of context.</p>
+      <a href="https://images.google.com" target="_blank">images.google.com →</a>
+    </div>
+    <div class="tool-card">
+      <div class="tool-emoji">📰</div>
+      <h4>Snopes</h4>
+      <p>One of the oldest and most thorough fact-checking sites. Great for viral claims and urban legends.</p>
+      <a href="https://snopes.com" target="_blank">snopes.com →</a>
+    </div>
+    <div class="tool-card">
+      <div class="tool-emoji">🏛️</div>
+      <h4>PolitiFact</h4>
+      <p>Specializes in political claims by public figures. Uses a clear Truth-O-Meter rating system.</p>
+      <a href="https://politifact.com" target="_blank">politifact.com →</a>
+    </div>
+    <div class="tool-card">
+      <div class="tool-emoji">⚖️</div>
+      <h4>AllSides</h4>
+      <p>Shows how different outlets with different biases cover the same story side-by-side.</p>
+      <a href="https://allsides.com" target="_blank">allsides.com →</a>
+    </div>
+    <div class="tool-card">
+      <div class="tool-emoji">🔬</div>
+      <h4>Retraction Watch</h4>
+      <p>Database of retracted scientific papers. Essential for verifying academic sources.</p>
+      <a href="https://retractionwatch.com" target="_blank">retractionwatch.com →</a>
+    </div>
+    <div class="tool-card">
+      <div class="tool-emoji">📚</div>
+      <h4>Google Scholar</h4>
+      <p>Search peer-reviewed literature and see how many times a study has been cited by others.</p>
+      <a href="https://scholar.google.com" target="_blank">scholar.google.com →</a>
+    </div>
+    <div class="tool-card">
+      <div class="tool-emoji">🌐</div>
+      <h4>Wayback Machine</h4>
+      <p>See what a website looked like in the past. Useful for spotting sites that recently changed their name or focus.</p>
+      <a href="https://web.archive.org" target="_blank">archive.org →</a>
+    </div>
+    <div class="tool-card">
+      <div class="tool-emoji">🧠</div>
+      <h4>Media Bias/Fact Check</h4>
+      <p>Rates news sources for bias and factual reporting. Covers thousands of outlets worldwide.</p>
+      <a href="https://mediabiasfactcheck.com" target="_blank">mediabiasfactcheck.com →</a>
+    </div>
+  </div>
+
+  <!-- COMPARISON TABLE -->
+  <div class="section-label">SIFT+ vs. CRAAP Test — What's Different?</div>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>CRAAP Test</th>
+        <th>SIFT+</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Approach</strong></td>
+        <td>Evaluates a source in isolation, on its own terms</td>
+        <td>Uses lateral reading — leaves the source to verify it externally</td>
+      </tr>
+      <tr>
+        <td><strong>Covers AI Content</strong></td>
+        <td><span class="pill pill-red">No</span></td>
+        <td><span class="pill pill-green">Yes — dedicated checklist</span></td>
+      </tr>
+      <tr>
+        <td><strong>Social Media</strong></td>
+        <td><span class="pill pill-yellow">Partial</span></td>
+        <td><span class="pill pill-green">Yes — specific guidance</span></td>
+      </tr>
+      <tr>
+        <td><strong>Addresses Emotional Manipulation</strong></td>
+        <td><span class="pill pill-red">No</span></td>
+        <td><span class="pill pill-green">Yes — first step is Stop</span></td>
+      </tr>
+      <tr>
+        <td><strong>Fact-checking Tools Integrated</strong></td>
+        <td><span class="pill pill-red">No</span></td>
+        <td><span class="pill pill-green">Yes — with direct links</span></td>
+      </tr>
+      <tr>
+        <td><strong>Works for Fast-Moving News</strong></td>
+        <td><span class="pill pill-yellow">Slowly</span></td>
+        <td><span class="pill pill-green">Yes — designed for speed</span></td>
+      </tr>
+      <tr>
+        <td><strong>Teaches Predatory Journals</strong></td>
+        <td><span class="pill pill-red">No</span></td>
+        <td><span class="pill pill-green">Yes</span></td>
+      </tr>
+      <tr>
+        <td><strong>Addresses Correlation vs. Causation</strong></td>
+        <td><span class="pill pill-red">No</span></td>
+        <td><span class="pill pill-green">Yes — in Statistics checklist</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p><strong>SIFT+ Information Evaluation Framework</strong></p>
+  <p style="margin-top:8px;">Based on the SIFT method developed by Mike Caulfield (Washington State University Vancouver). Enhanced with source-specific checklists for academic, digital, and AI contexts. For classroom use.</p>
+</div>
+
+<script>
+  function showTab(id) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+
+</body>
+</html>
