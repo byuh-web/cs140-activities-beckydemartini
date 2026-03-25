@@ -1,11 +1,8 @@
-/* =============================================
-   TECH BLOG – Flexbox Activity Starter CSS
-   
-   YOUR TASKS are marked with 👉
-   Everything else is already done for you.
+    /* =============================================
+   TECH BLOG – INSTRUCTOR SOLUTION CSS
+   (Do not distribute to students until after activity)
    ============================================= */
 
-/* --- Base Reset & Body --- */
 * {
   margin: 0;
   padding: 0;
@@ -18,28 +15,15 @@ body {
   color: #222;
 }
 
-/* --- NAVBAR ---
-   The HTML structure is:
-   <nav class="navbar">
-     <div class="logo">...</div>
-     <ul class="nav-links">...</ul>
-   </nav>
-*/
-
+/* --- NAVBAR --- */
 .navbar {
   background-color: #1a1a2e;
   padding: 0 2rem;
   height: 64px;
 
-  /* 👉 TASK 1: Turn the navbar into a flex container */
-  
-
-  /* 👉 TASK 2: Vertically center the logo and links
-
-
-  /* 👉 TASK 3: Push the logo LEFT and the links RIGHT
-     Hint: there's a value that puts space BETWEEN items */
-  
+  display: flex;                    /* TASK 1 */
+  align-items: center;              /* TASK 2 */
+  justify-content: space-between;   /* TASK 3 */
 }
 
 .logo {
@@ -51,11 +35,7 @@ body {
 
 .nav-links {
   list-style: none;
-
-  /* 👉 TASK 4: Make the nav links sit in a horizontal row
-     (They are inside a <ul> — make the ul a flex container) */
-  
-
+  display: flex;                    /* TASK 4 */
   gap: 2rem;
 }
 
@@ -69,7 +49,7 @@ body {
   color: #e94560;
 }
 
-/* --- HERO SECTION (already done!) --- */
+/* --- HERO SECTION --- */
 .hero {
   background-color: #1a1a2e;
   color: white;
@@ -88,56 +68,31 @@ body {
   color: #ccc;
 }
 
-/* --- CARD SECTION ---
-   The HTML structure is:
-   <main class="card-section">
-     <article class="card card-featured">...</article>
-     <article class="card">...</article>
-     <article class="card">...</article>
-   </main>
-*/
-
+/* --- CARD SECTION --- */
 .card-section {
   max-width: 1200px;
   margin: 2.5rem auto;
   padding: 0 2rem;
 
-  /* 👉 TASK 5: Turn the card section into a flex container */
-  
-
-  /* 👉 TASK 6: Add some space between the cards
-     Hint: use the gap property OR a justify-content value */
-  
-
-  /* 👉 TASK 7: Make sure cards align at the top
-     (What align-items value keeps them from stretching?) */
-  
+  display: flex;                    /* TASK 5 */
+  gap: 1.5rem;                      /* TASK 6 */
+  align-items: flex-start;          /* TASK 7 */
 }
 
-/* --- INDIVIDUAL CARD (already done!) --- */
+/* --- CARD --- */
 .card {
   background: white;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-/* --- TASK 8 ---
-   👉 TASK 8: Make the .card-featured grow
-   to be wider than the other two cards.
-   Hint: use flex-grow on both .card and .card-featured
-   with different values so featured gets more space.
-*/
-
-.card {
-  /* your flex-grow value here */
+  flex-grow: 1;                     /* TASK 8 — equal base */
 }
 
 .card-featured {
-  /* your flex-grow value here */
+  flex-grow: 2;                     /* TASK 8 — featured gets more space */
 }
 
-/* --- CARD IMAGE AREAS (already done!) --- */
+/* --- CARD IMAGE AREAS --- */
 .card-img {
   width: 100%;
   height: 180px;
@@ -147,7 +102,7 @@ body {
 .img-2        { background-color: #0f3460; }
 .img-3        { background-color: #16213e; }
 
-/* --- CARD BODY (already done!) --- */
+/* --- CARD BODY --- */
 .card-body {
   padding: 1.25rem;
 }
@@ -191,11 +146,7 @@ body {
   background: #e94560;
 }
 
-/* =============================================
-   NEW TASKS BELOW
-   ============================================= */
-
-/* --- TOPICS SECTION (already done!) --- */
+/* --- TOPICS SECTION --- */
 .topics {
   max-width: 1200px;
   margin: 0 auto 2.5rem;
@@ -211,13 +162,8 @@ body {
 }
 
 .tag-row {
-  /* 👉 TASK 9: Turn this into a flex container so the
-     topic tags line up in a row. Then allow the tags to
-     WRAP onto a new line when they run out of space.
-     Hint: you need TWO properties here — one to activate
-     flex, and one to allow wrapping. */
-  
-
+  display: flex;                    /* TASK 9a — activate flex */
+  flex-wrap: wrap;                  /* TASK 9b — allow wrapping */
   gap: 0.5rem;
 }
 
@@ -238,7 +184,7 @@ body {
   cursor: pointer;
 }
 
-/* --- AUTHOR SECTION (already done!) --- */
+/* --- AUTHOR SECTION --- */
 .author-section {
   max-width: 480px;
   margin: 0 auto 3rem;
@@ -259,12 +205,8 @@ body {
   padding: 1.5rem;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 
-  /* 👉 TASK 10: Make the author card a flex container,
-     and stack its children VERTICALLY (column direction).
-     The avatar, text, and button should be on top of
-     each other, not side by side. */
-  
-
+  display: flex;                    /* TASK 10a */
+  flex-direction: column;           /* TASK 10b — stack vertically */
   gap: 1rem;
 }
 
@@ -273,7 +215,6 @@ body {
   height: 72px;
   border-radius: 50%;
   background-color: #0f3460;
-  /* already done — don't change this */
 }
 
 .author-info h4 {
@@ -289,15 +230,10 @@ body {
 
 .btn-follow {
   background: #e94560;
-  /* 👉 TASK 11: Make ONLY this button align to the RIGHT
-     side of the card, even though everything else is
-     left-aligned.
-     Hint: don't change the container — use a property
-     that targets this single item on the cross axis. */
-  
+  align-self: flex-end;             /* TASK 11 — only this item moves right */
 }
 
-/* --- FOOTER (already done!) --- */
+/* --- FOOTER --- */
 .footer {
   background-color: #1a1a2e;
   color: #aaa;

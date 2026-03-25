@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms</title>
+    <link rel="stylesheet" href="form.css">
+</head>
+<body>
+    <header>
+        <h1>Web Design</h1>
+    </header>
+    <main>
+        <form action="processing.html" method="post" id="myForm">
+            First Name: <input type="text" id="firstName" name="first" placeholder="First Name"><br>
+            Last Name: <input type="text" id="lastName" name="last" placeholder="Last Name"><br>
+            Password: <input type="password" name="pass" id="password"><br>
+            <input type="checkbox" name="remember" checked id="remember"> Remember Me<br>
+            Age: <input type="number" name="age" id="age"><br>
+            Class:
+            <input type="radio" value="freshman">Freshman<br>
+            <input type="radio" value="sophomore">Sophomore<br>
+            <input type="radio" value="junior">Junior<br>
+            <input type="radio" value="senior">Senior<br>
+            State: <select name="state" id="state">
+                <option value="blank" disabled selected>Make Selection</option>
+                <option value="hi">Hawaii</option>
+                <option value="ca">California</option>
+                <option value="co">Colorado</option>
+                <option value="ut">Utah</option>
+            </select><br>
+            <input type="submit">
+        </form>
+    </main>
+    <footer>
+        <p>&copy; 2024 Chris Slade</p>
+    </footer>
+    <script>
+        document.getElementById("myForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const first = document.getElementById("firstName").value;
+            const last = document.getElementById("lastName").value;
+            const age = document.getElementById("age").value;
+            const password = document.getElementById("password").value;
+
+            if (!first || !last) {
+                alert("Please provide your full name.");
+                return;
+            }
+
+            if (!password) {
+                alert("Please enter a password.");
+                return;
+            }
+
+            if (!age || age < 18) {
+                alert("You must be 18 years or older to submit this form.");
+                return;
+            }
+
+            const data = {
+                firstName: first,
+                lastName: last,
+                age: age
+            }
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "submit.json", true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    alert('Form submitted successfully.');
+                } else if (xhr.readyState === 4) {
+                    alert('Error submitting form.');
+                }
+            };
+            xhr.send(JSON.stringify(data));
+            console.log(data);
+        });
+    </script>
+</body>
+</html>
