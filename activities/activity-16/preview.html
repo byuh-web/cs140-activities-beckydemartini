@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms Practice</title>
+    <link rel="stylesheet" href="form.css">
+</head>
+<body>
+    <header>
+        <h1>Web Design</h1>
+    </header>
+
+    <main>
+        <form action="#" method="post" id="myForm">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="first" placeholder="First Name"><br>
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="last" placeholder="Last Name"><br>
+
+            <label for="password">Password:</label>
+            <input type="password" name="pass" id="password"><br>
+
+            <input type="checkbox" name="remember" checked id="remember">
+            <label for="remember">Remember Me</label><br>
+
+            <label for="age">Age:</label>
+            <input type="number" name="age" id="age"><br>
+
+            <p>Class:</p>
+            <input type="radio" name="class" id="freshman" value="freshman">
+            <label for="freshman">Freshman</label><br>
+
+            <input type="radio" name="class" id="sophomore" value="sophomore">
+            <label for="sophomore">Sophomore</label><br>
+
+            <input type="radio" name="class" id="junior" value="junior">
+            <label for="junior">Junior</label><br>
+
+            <input type="radio" name="class" id="senior" value="senior">
+            <label for="senior">Senior</label><br>
+
+            <label for="state">State:</label>
+            <select name="state" id="state">
+                <option value="" disabled selected>Make Selection</option>
+                <option value="hi">Hawaii</option>
+                <option value="ca">California</option>
+                <option value="co">Colorado</option>
+                <option value="ut">Utah</option>
+            </select><br><br>
+
+            <input type="submit" value="Submit">
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Chris Slade</p>
+    </footer>
+
+    <script>
+        // 1. Find the form and listen for submit
+        document.getElementById("myForm").addEventListener("submit", function(event) {
+
+            // 2. Stop normal form submission
+            event.preventDefault();
+
+            // 3. Get values from the form
+            const first = document.getElementById("firstName").value.trim();
+            const last = document.getElementById("lastName").value.trim();
+            const password = document.getElementById("password").value;
+            const age = document.getElementById("age").value;
+            const remember = document.getElementById("remember").checked;
+            const state = document.getElementById("state").value;
+            const classYear = document.querySelector('input[name="class"]:checked');
+
+            // 4. Validation
+            if (!first || !last) {
+                alert("Please provide your full name.");
+                return;
+            }
+
+            if (!password) {
+                alert("Please enter a password.");
+                return;
+            }
+
+            if (!age || age < 18) {
+                alert("You must be 18 years or older to submit this form.");
+                return;
+            }
+
+            if (!classYear) {
+                alert("Please select your class.");
+                return;
+            }
+
+            if (!state) {
+                alert("Please select your state.");
+                return;
+            }
+
+            // 5. Store form data in an object
+            const data = {
+                firstName: first,
+                lastName: last,
+                age: age,
+                class: classYear.value,
+                state: state,
+                remember: remember
+            };
+
+            console.log("Form data entered by user:");
+            console.log(data);
+
+            // 6. Create AJAX request
+            const xhr = new XMLHttpRequest();
+
+            // 7. Open a GET request to read a file
+            xhr.open("GET", "submit.json", true);
+
+            // 8. What should happen when the file loads?
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const responseData = JSON.parse(xhr.responseText);
+                    alert("Form validated and JSON file loaded successfully.");
+                    console.log("Data from submit.json:");
+                    console.log(responseData);
+                } else if (xhr.readyState === 4) {
+                    alert("Error loading JSON file.");
+                }
+            };
+
+            // 9. Send the request
+            xhr.send();
+        });
+    </script>
+</body>
+</html>
